@@ -1,0 +1,5 @@
+*.pyc
+.git/
+.idea/
+__pycache__/
+migrations/
