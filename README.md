@@ -1,2 +1,2 @@
 # django-restframesork-jwt-demo
-demo about using django-restframesork-jwt
+demo about using python, django-restframesork-jwt etc.
