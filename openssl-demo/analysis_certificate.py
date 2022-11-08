@@ -1,5 +1,8 @@
 #! -*-conding=: UTF-8 -*-
 # 2022/11/7 17:17
+"""
+OpenSSL 解析certificate 证书
+"""
 import os
 import sys
 import traceback
