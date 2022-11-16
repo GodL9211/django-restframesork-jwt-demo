@@ -11,7 +11,7 @@ import time
 import json
 
 host = socket.gethostname()  # maybe change
-port = 7878
+port = 7870
 BUF_SIZE = 4096
 
 try:

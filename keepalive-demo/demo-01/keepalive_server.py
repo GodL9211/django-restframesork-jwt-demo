@@ -16,7 +16,7 @@ BUF_SIZE = 4096
 
 HOST = socket.gethostname()
 print(HOST)
-PORT = 7878
+PORT = 7870
 try:
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 except socket.error as e:
@@ -34,14 +34,17 @@ print("Socket now listening")
 
 
 def clientthread(coon):
-    coon.send("Welcome to the server!")
+    coon.send("Welcome to the server!".encode("utf-8"))
     while True:
         try:
-            data = coon.recv(BUF_SIZE)
-            data_loaded = json.loads(data)
+            request_buffer = coon.recv(BUF_SIZE)
+            # print(request_buffer[0:8])
+            # print(request_buffer[-8:])
+            data_loaded = json.loads(request_buffer[8: -8])
             print("ip: " + str(data_loaded['ip']) + " |status: " + data_loaded['status'] + " |pid: " + str(
                 data_loaded['pid']))
-            # coon.sendall("hello, I love you!")    # set the client :setblock(0)is ok!
+            print("-" * 30)
+            coon.sendall("hello, I love you!".encode("utf-8"))    # set the client :setblock(0)is ok!
         except socket.error:
             break
     coon.close()
