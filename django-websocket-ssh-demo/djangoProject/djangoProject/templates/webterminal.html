@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>终端</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <link rel="stylesheet" href="/static/css/xterm.css"/>
+    <script src="/static/js/xterm.js"></script>
+
+</head>
+<body style="margin: 0;padding: 0;">
+<div id="terminal"></div>
+</body>
+<script>
+
+
+    function terminal_size() {
+        return {
+            cols: Math.floor($('#terminal').width() / 9),
+            rows: Math.floor($(window).height() / 17),
+        }
+    }
+
+    let cols = terminal_size().cols;
+    let rows = terminal_size().rows;
+
+    var term = new Terminal({cursorBlink: true, useStyle: true, cols: cols, rows: rows});
+    term.open(document.getElementById('terminal'));
+    term.focus();
+    var socket = new WebSocket('ws://' + window.location.host + '/ws/webssh/{{ host }}/{{ username }}/{{ password }}');
+    socket.onopen = function () {
+
+        term.onData(data => {
+            let send_data = JSON.stringify({
+                'flag': 'input',
+                'data': data,
+            });
+
+            console.log(send_data)
+            socket.send(send_data)
+        })
+    }
+
+
+    socket.onerror = function (event) {
+        console.log('error:' + event);
+    };
+
+    socket.onmessage = function (event) {
+        data = JSON.parse(event.data);
+        term.write(data.message);
+
+        if (data.flag === 'failed') {
+            socket.close();
+        }
+    };
+
+    socket.onclose = function (event) {
+        term.write('\n\r\x1B[1;3;31m连接关闭.\x1B[0m');
+    };
+
+
+</script>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>请输入远端</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>地址：<input type="text" name="host"></p>
+    <p>用户名：<input type="text" name="username"></p>
+    <p>密码：<input type="text" name="password"></p>
+    <input type="submit" value="连接">
+</form>
+
+</body>
+
+<script>
+</script>
+</html>
